@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Workflow Optimization Hackathon — Getting Started</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Serif+Display&display=swap');
+  :root {
+    --navy: #1A2744;
+    --blue: #2563EB; --blue-bg: #EFF6FF; --blue-border: #BFDBFE;
+    --green: #16A34A; --green-bg: #F0FDF4; --green-border: #BBF7D0;
+    --amber: #D97706; --amber-bg: #FFFBEB; --amber-border: #FDE68A;
+    --red: #DC2626; --red-bg: #FFF1F2; --red-border: #FECDD3;
+    --purple: #7C3AED; --purple-bg: #F5F3FF; --purple-border: #DDD6FE;
+    --teal: #0D9488; --teal-bg: #F0FDFA; --teal-border: #99F6E4;
+    --gray-50: #F8FAFC; --gray-100: #F1F5F9; --gray-200: #E2E8F0;
+    --gray-400: #94A3B8; --gray-600: #475569; --gray-700: #334155;
+    --gray-800: #1E293B; --white: #FFFFFF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--gray-50); color: var(--gray-800); line-height: 1.6; font-size: 15px; }
+
+  /* ── HERO ── */
+  .hero { background: linear-gradient(135deg, #1A2744 0%, #1e3a5f 100%); color: white; padding: 56px 48px 48px; position: relative; }
+  .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #93C5FD; margin-bottom: 12px; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: 38px; line-height: 1.2; margin-bottom: 14px; max-width: 680px; }
+  .hero h1 span { color: #6EE7B7; }
+  .hero p { font-size: 15px; color: #CBD5E1; max-width: 720px; line-height: 1.75; }
+  .hero-tags { margin-top: 22px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero-tags-label { font-size: 11px; color: #64748B; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 8px; width: 100%; }
+  .hero-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); color: rgba(255,255,255,0.9); padding: 4px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; cursor: default; user-select: none; }
+
+  /* ── GUARDRAIL STRIP ── */
+  .guardrail { background: var(--red-bg); border-bottom: 1px solid var(--red-border); padding: 12px 48px; font-size: 13px; color: #7F1D1D; text-align: center; }
+  .guardrail strong { color: #991B1B; }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 980px; margin: 0 auto; padding: 0 36px; }
+  .section { padding: 52px 0; }
+  .section + .section { border-top: 1px solid var(--gray-200); }
+  .sec-label { font-size: 10.5px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 8px; }
+  .sec-title { font-family: 'DM Serif Display', serif; font-size: 27px; color: var(--navy); margin-bottom: 8px; }
+  .sec-sub { font-size: 14px; color: var(--gray-600); max-width: 660px; margin-bottom: 28px; line-height: 1.75; }
+
+  /* ── OVERVIEW FLOW ── */
+  .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 20px; margin-bottom: 8px; }
+  .flow-step { position: relative; }
+  .flow-step:not(:last-child)::after {
+    content: '→'; position: absolute; left: calc(100% + 10px); top: 24px;
+    transform: translateX(-50%);
+    font-size: 18px; color: var(--gray-400); z-index: 2;
+  }
+  .flow-step:nth-child(3n)::after { content: none; }
+  .flow-inner {
+    background: white; border: 1px solid var(--gray-200); border-radius: 10px;
+    padding: 20px 18px; text-align: center;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+    display: flex; flex-direction: column; height: 100%;
+  }
+  .flow-inner p { flex: 1; }
+  .flow-inner:hover {
+    border-color: var(--blue); background: var(--blue-bg);
+    transform: translateY(-4px); box-shadow: 0 8px 24px rgba(37,99,235,0.15);
+  }
+  .flow-inner:hover .flow-num { transform: scale(1.1); }
+  .flow-num { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: white; margin: 0 auto 10px; transition: transform 0.2s; }
+  .flow-inner h3 { font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .flow-inner:hover h3 { color: var(--blue); }
+  .flow-inner p { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+  .flow-jump { margin-top: 10px; font-size: 10.5px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.7; }
+
+  /* ── STICKY NAV ── */
+  .sticky-nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--navy); border-bottom: 2px solid #2D4A8A;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 36px; height: 52px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    overflow-x: auto;
+  }
+  .sticky-nav-brand { font-size: 12px; font-weight: 700; color: #64748B; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
+  .sticky-nav-links { display: flex; gap: 4px; }
+  .sticky-nav-links a {
+    color: #94A3B8; font-size: 12px; font-weight: 600; text-decoration: none;
+    padding: 6px 14px; border-radius: 6px; transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .sticky-nav-links a:hover { background: rgba(255,255,255,0.1); color: white; }
+  .sticky-nav-links a.active { background: var(--blue); color: white; }
+
+  /* ── PHASE CARDS (Steps 1-8) ── */
+  .phase { border: 1px solid var(--gray-200); border-radius: 12px; background: white; overflow: hidden; margin-bottom: 20px; scroll-margin-top: 68px; }
+  .phase-head { display: flex; align-items: center; gap: 14px; padding: 18px 22px; border-bottom: 1px solid var(--gray-100); }
+  .phase-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: white; flex-shrink: 0; }
+  .phase-head-text h3 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+  .phase-head-text p { font-size: 12px; color: var(--gray-600); }
+  .when-badge { margin-left: auto; font-size: 10.5px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; white-space: nowrap; }
+  .phase-body { padding: 20px 22px; }
+  .phase-body p.lead { font-size: 13.5px; color: var(--gray-600); margin-bottom: 16px; line-height: 1.7; }
+  .phase-body ul.plain { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 6px; }
+  .phase-body ul.plain li { padding-left: 18px; position: relative; font-size: 13.5px; color: var(--gray-700); line-height: 1.6; }
+  .phase-body ul.plain li::before { content: '→'; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
+  .phase-body ul.plain li strong { color: var(--gray-800); }
+
+  .callout { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.65; border: 1px solid; }
+  .callout.blue { background: var(--blue-bg); border-color: var(--blue-border); color: #1E3A8A; }
+  .callout.green { background: var(--green-bg); border-color: var(--green-border); color: #14532D; }
+  .callout.amber { background: var(--amber-bg); border-color: var(--amber-border); color: #78350F; }
+
+  /* ── STEP 0: office pain points ── */
+  .topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; margin-bottom: 8px; }
+  .topic-card { background: white; border: 1px dashed var(--gray-200); border-radius: 10px; padding: 16px 18px; }
+  .topic-card h3 { font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .topic-card .fill { font-size: 12.5px; color: var(--gray-400); font-style: italic; }
+  .optional-pill { display: inline-block; padding: 4px 13px; border-radius: 100px; font-size: 11.5px; font-weight: 600; margin-bottom: 14px; background: var(--teal-bg); color: var(--teal); border: 1px solid var(--teal-border); }
+
+  /* ── QUICK REF BOXES (hunt tests) ── */
+  .qr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 8px; }
+  .qr-box { border-radius: 10px; padding: 14px 16px; border: 1px solid; }
+  .qr-box h4 { font-size: 12.5px; font-weight: 700; margin-bottom: 4px; }
+  .qr-box p { font-size: 12px; line-height: 1.5; }
+  .qr-box.c1 { background: var(--blue-bg); border-color: var(--blue-border); } .qr-box.c1 h4 { color: var(--blue); } .qr-box.c1 p { color: #1E3A8A; }
+  .qr-box.c2 { background: var(--green-bg); border-color: var(--green-border); } .qr-box.c2 h4 { color: var(--green); } .qr-box.c2 p { color: #14532D; }
+  .qr-box.c3 { background: var(--amber-bg); border-color: var(--amber-border); } .qr-box.c3 h4 { color: var(--amber); } .qr-box.c3 p { color: #78350F; }
+  .qr-box.c4 { background: var(--purple-bg); border-color: var(--purple-border); } .qr-box.c4 h4 { color: var(--purple); } .qr-box.c4 p { color: #4C1D95; }
+  .qr-box.c5 { background: var(--red-bg); border-color: var(--red-border); } .qr-box.c5 h4 { color: var(--red); } .qr-box.c5 p { color: #7F1D1D; }
+  .qr-box.c6 { background: var(--teal-bg); border-color: var(--teal-border); } .qr-box.c6 h4 { color: var(--teal); } .qr-box.c6 p { color: #134E4A; }
+
+  /* ── GOOD / BAD (Step 3) ── */
+  .red-flags { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 6px; }
+  .rf { border-radius: 8px; padding: 13px 15px; border: 1px solid; display: flex; gap: 10px; align-items: flex-start; }
+  .rf.bad { background: var(--red-bg); border-color: var(--red-border); }
+  .rf.good { background: var(--green-bg); border-color: var(--green-border); }
+  .rf-mark { font-weight: 800; font-size: 15px; flex-shrink: 0; }
+  .rf.bad .rf-mark { color: var(--red); } .rf.good .rf-mark { color: var(--green); }
+  .rf span.txt { font-size: 13.5px; line-height: 1.55; }
+  .rf.bad span.txt { color: #7F1D1D; } .rf.good span.txt { color: #14532D; }
+
+  /* ── DECISION TABLE (Step 4) ── */
+  .decision { background: white; border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
+  .decision-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--gray-100); }
+  .decision-row:last-child { border-bottom: none; }
+  .dr-q { flex: 0 0 44%; padding: 13px 18px; background: var(--gray-50); font-size: 13px; font-weight: 600; color: var(--navy); border-right: 1px solid var(--gray-200); display: flex; align-items: center; }
+  .dr-a { flex: 1; padding: 13px 18px; font-size: 13px; color: var(--gray-600); display: flex; align-items: center; }
+
+  /* ── TOOL CHOOSER TABS (Step 5) ── */
+  .tool-tabs { display: flex; gap: 0; flex-wrap: wrap; margin-bottom: 0; }
+  .tool-tab-btn {
+    padding: 10px 16px; font-size: 11.5px; font-weight: 700;
+    border: none; cursor: pointer; transition: all 0.15s;
+    letter-spacing: 0.4px; text-transform: uppercase;
+    border-radius: 8px 8px 0 0; white-space: nowrap;
+    background: var(--gray-100); color: var(--gray-600); opacity: 0.75;
+  }
+  .tool-tab-btn:hover { opacity: 1; }
+  .tool-tab-btn.active { background: var(--navy); color: white; opacity: 1; }
+  .tool-pane { display: none; background: var(--navy); border-radius: 0 10px 10px 10px; padding: 20px 22px; }
+  .tool-pane.active { display: block; }
+  .tool-pane-title { font-size: 15px; font-weight: 700; color: white; margin-bottom: 6px; }
+  .tool-pane-desc { font-size: 13px; color: #CBD5E1; line-height: 1.7; margin-bottom: 14px; }
+  .tool-chip-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .chip { padding: 5px 13px; border-radius: 100px; font-size: 11.5px; font-weight: 700; }
+  .chip.cl { background: #7C3AED; color: white; }
+  .chip.gp { background: #16A34A; color: white; }
+  .chip.gm { background: #EA580C; color: white; }
+  .chip.zap { background: #FF4A00; color: white; }
+  .chip.make { background: #6D00CC; color: white; }
+  .chip.n8n { background: #EA4B71; color: white; }
+  .chip.lovable { background: #FF3366; color: white; }
+  .chip.base44 { background: #0EA5E9; color: white; }
+  .chip.excel { background: #217346; color: white; }
+  .tool-hint { margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 12px; color: #93C5FD; }
+
+  /* ── TIPS BOX (Step 6 loop) ── */
+  .tips-box { background: linear-gradient(135deg, var(--purple-bg), var(--blue-bg)); border: 1px solid var(--purple-border); border-radius: 12px; padding: 22px 26px; }
+  .tips-box h4 { font-size: 13.5px; font-weight: 700; color: var(--navy); margin-bottom: 12px; }
+  .tips-list { list-style: none; }
+  .tips-list li { padding: 7px 0 7px 20px; position: relative; font-size: 13.5px; color: var(--gray-700); border-bottom: 1px dashed #DBEAFE; line-height: 1.6; }
+  .tips-list li:last-child { border-bottom: none; }
+  .tips-list li::before { content: '→'; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+
+  /* ── METRIC GRID (Step 7) ── */
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 14px; margin-bottom: 6px; }
+  .metric-box { background: white; border: 1px solid var(--gray-200); border-radius: 12px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
+  .metric-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; font-weight: 800; color: white; }
+  .metric-box h4 { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 3px; }
+  .metric-box p { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+  /* ── SUBMISSION CHECKLIST (Step 8) ── */
+  .checks { display: flex; flex-direction: column; gap: 8px; }
+  .check-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; user-select: none; transition: all 0.15s; }
+  .check-item.blue { background: var(--blue-bg); border-color: var(--blue-border); }
+  .check-item.green { background: var(--green-bg); border-color: var(--green-border); }
+  .check-item.amber { background: var(--amber-bg); border-color: var(--amber-border); }
+  .check-item.purple { background: var(--purple-bg); border-color: var(--purple-border); }
+  .check-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; font-size: 12px; font-weight: 700; transition: all 0.15s; }
+  .check-item.blue .check-box { border-color: var(--blue); color: var(--blue); }
+  .check-item.green .check-box { border-color: var(--green); color: var(--green); }
+  .check-item.amber .check-box { border-color: var(--amber); color: var(--amber); }
+  .check-item.purple .check-box { border-color: var(--purple); color: var(--purple); }
+  .check-item.done.blue .check-box { background: var(--blue); color: white; }
+  .check-item.done.green .check-box { background: var(--green); color: white; }
+  .check-item.done.amber .check-box { background: var(--amber); color: white; }
+  .check-item.done.purple .check-box { background: var(--purple); color: white; }
+  .check-text strong { display: block; font-size: 13.5px; font-weight: 600; color: var(--gray-800); margin-bottom: 2px; transition: opacity 0.15s; }
+  .check-text span { font-size: 12.5px; color: var(--gray-600); line-height: 1.55; }
+  .check-item.done .check-text strong { opacity: 0.5; text-decoration: line-through; }
+  .progress-line { font-size: 12px; color: var(--gray-600); margin-top: 12px; text-align: right; }
+  .progress-line strong { color: var(--navy); }
+
+  .footer { background: var(--navy); color: #94A3B8; text-align: center; padding: 28px 32px; font-size: 13px; }
+  .footer strong { color: white; }
+  .footer .offices { margin-top: 8px; font-size: 13px; color: #64748B; }
+
+  @media (max-width: 768px) {
+    .hero { padding: 36px 20px; } .hero h1 { font-size: 26px; }
+    .container { padding: 0 18px; }
+    .flow { grid-template-columns: 1fr 1fr; }
+    .flow-step:nth-child(3n):not(:last-child)::after { content: '→'; }
+    .flow-step:nth-child(2n)::after { content: none; }
+    .qr-grid { grid-template-columns: 1fr; }
+    .decision-row { flex-direction: column; }
+    .dr-q { border-right: none; border-bottom: 1px solid var(--gray-200); }
+    .guardrail { padding: 12px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<div class="hero" id="top">
+  <div class="container">
+    <div class="hero-eyebrow">AI Workflow Optimization Hackathon</div>
+    <h1>You don't know what to build. By <span>Monday</span>, you will.</h1>
+    <p>A step-by-step methodology to go from "we don't know what to work on" to a validated problem and a working prototype — running <strong style="color:white;">Thursday through Monday</strong>, across every DDD office.</p>
+    <div class="hero-tags">
+      <div class="hero-tags-label">This guide covers</div>
+      <span class="hero-tag">Finding the problem</span>
+      <span class="hero-tag">Picking a tool</span>
+      <span class="hero-tag">Building in loops</span>
+      <span class="hero-tag">Measuring impact</span>
+      <span class="hero-tag">Submitting</span>
+    </div>
+  </div>
+</div>
+
+<div class="guardrail">🔒 <strong>Guardrail, always on:</strong> no real beneficiary or donor data in any third-party AI tool — synthetic or sample data only, for every team, every step.</div>
+
+<!-- ══ STICKY NAV ══ -->
+<div class="sticky-nav">
+  <div class="sticky-nav-brand">Getting Started</div>
+  <div class="sticky-nav-links">
+    <a href="#step0">Start</a>
+    <a href="#step1">Map</a>
+    <a href="#step3">Frame</a>
+    <a href="#step5">Tool</a>
+    <a href="#step6">Build</a>
+    <a href="#step8">Submit</a>
+  </div>
+</div>
+
+<!-- ══ OVERVIEW FLOW ══ -->
+<div style="background:white;">
+<div class="container">
+<div class="section">
+  <div class="sec-label">How It Works</div>
+  <div class="sec-title">Eight Steps from Blank Page to Working Prototype</div>
+  <div class="sec-sub">Every team follows this sequence. Click any card to jump straight to that part of the guide.</div>
+
+  <div class="flow">
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step0').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--teal);">0</div>
+        <h3>Start from a Pain Point</h3>
+        <p>Optional. Check whether your office already has a known problem worth tackling.</p>
+        <div class="flow-jump" style="color:var(--teal);">↓ Jump to Step 0</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--blue);">1</div>
+        <h3>Map Your Workflow</h3>
+        <p>Lay out one process, step by step, from trigger to completion.</p>
+        <div class="flow-jump" style="color:var(--blue);">↓ Jump to Step 1</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--red);">2</div>
+        <h3>Hunt for Pain</h3>
+        <p>Run every step through six tests to flag what's repetitive and painful.</p>
+        <div class="flow-jump" style="color:var(--red);">↓ Jump to Step 2</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--amber);">3</div>
+        <h3>Frame the Problem</h3>
+        <p>Write it as a problem statement — never a tool name.</p>
+        <div class="flow-jump" style="color:var(--amber);">↓ Jump to Step 3</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--purple);">4</div>
+        <h3>Prioritize</h3>
+        <p>Sanity-check against time saved, frequency, reach, and feasibility.</p>
+        <div class="flow-jump" style="color:var(--purple);">↓ Jump to Step 4</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step5').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--green);">5</div>
+        <h3>Choose Your Tool</h3>
+        <p>Match the problem type to a tool category. Don't overthink it.</p>
+        <div class="flow-jump" style="color:var(--green);">↓ Jump to Step 5</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step6').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--blue);">6</div>
+        <h3>Prototype in Loops</h3>
+        <p>Build the smallest version, test it, iterate. Repeat.</p>
+        <div class="flow-jump" style="color:var(--blue);">↓ Jump to Step 6</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step7').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--teal);">7</div>
+        <h3>Measure the Impact</h3>
+        <p>Track time saved, frequency, and reach as you build.</p>
+        <div class="flow-jump" style="color:var(--teal);">↓ Jump to Step 7</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step8').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--purple);">8</div>
+        <h3>Prepare Your Submission</h3>
+        <p>Package the problem, the build, and the numbers into your story.</p>
+        <div class="flow-jump" style="color:var(--purple);">↓ Jump to Step 8</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <strong>Rule of thumb:</strong> by Friday evening, something should run end-to-end — rough is fine. Polish comes later. 80% of a small problem beats 10% of a big one.
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══ STEP 0 ══ -->
+<div class="container">
+<div class="section" id="step0">
+  <div class="sec-label">Before You Brainstorm</div>
+  <div class="sec-title">Step 0 — Start from a Known Pain Point</div>
+  <span class="optional-pill">Optional · 10 min</span>
+  <div class="sec-sub">Check whether your office already has a known pain point below. It's a shortcut, not a mandate — if something else feels more pressing, chase that instead.</div>
+
+  <div class="topics">
+    <div class="topic-card"><h3>🇰🇪 Nairobi</h3><div class="fill">— fill in with your office lead —</div></div>
+    <div class="topic-card"><h3>🇱🇦 Vientiane</h3><div class="fill">— fill in with your office lead —</div></div>
+    <div class="topic-card"><h3>🇰🇭 Phnom Penh</h3><div class="fill">— fill in with your office lead —</div></div>
+    <div class="topic-card"><h3>📍 Your office</h3><div class="fill">— fill in with your office lead —</div></div>
+  </div>
+
+  <div class="callout amber">
+    Picked one? Treat it as a <strong>hypothesis</strong>, not a done deal — still run it through Steps 1–4. It might turn out to be a symptom of a different task once you map it out. Nothing resonating? Skip straight to Step 1.
+  </div>
+</div>
+</div>
+
+<!-- ══ STEP 1 ══ -->
+<div style="background:white;">
+<div class="container">
+<div class="section">
+  <div class="phase" id="step1">
+    <div class="phase-head">
+      <div class="phase-num" style="background:var(--blue);">1</div>
+      <div class="phase-head-text">
+        <h3>Map Your Workflow</h3>
+        <p>Get concrete about what you actually do</p>
+      </div>
+      <span class="when-badge" style="background:var(--blue-bg);color:var(--blue);">30 min</span>
+    </div>
+    <div class="phase-body">
+      <p class="lead">Before you look for AI anything, pick one process the whole team knows cold and lay it out, start to finish.</p>
+      <ul class="plain">
+        <li><strong>Every step, in order</strong> — trigger to completion: "manager sends request" → "I pull data from Sheet X" → "I reformat it" → "I email it to Y"</li>
+        <li><strong>Who's involved</strong> at each step</li>
+        <li><strong>The tools used</strong> at each step — email, spreadsheets, forms, whatever it actually is</li>
+        <li><strong>Roughly how long</strong> each step takes</li>
+      </ul>
+      <div class="callout blue">Sticky notes or a shared doc, one line per step. Don't try to hold it all in your head.</div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 2 ══ -->
+  <div class="phase" id="step2">
+    <div class="phase-head">
+      <div class="phase-num" style="background:var(--red);">2</div>
+      <div class="phase-head-text">
+        <h3>Hunt for Repetitive, Time-Consuming Tasks</h3>
+        <p>Run every step through six tests</p>
+      </div>
+      <span class="when-badge" style="background:var(--red-bg);color:var(--red);">20 min</span>
+    </div>
+    <div class="phase-body">
+      <p class="lead">Go back through your map. Flag every step that hits <strong style="color:var(--gray-800);">2 or more</strong> of these:</p>
+      <div class="qr-grid">
+        <div class="qr-box c1"><h4>Repetition</h4><p>Do I do this weekly, daily, or every time a certain event happens?</p></div>
+        <div class="qr-box c2"><h4>Copy-paste test</h4><p>Am I moving the same info from one place to another?</p></div>
+        <div class="qr-box c3"><h4>Template test</h4><p>Do I start from a blank page for what's really the same output?</p></div>
+        <div class="qr-box c4"><h4>Waiting test</h4><p>Am I stuck waiting on someone else's manual step?</p></div>
+        <div class="qr-box c5"><h4>Dread test</h4><p>Which step do I personally avoid or procrastinate on?</p></div>
+        <div class="qr-box c6"><h4>5-minute teach</h4><p>Fully rule-based, explainable in 5 minutes? It's automatable.</p></div>
+      </div>
+      <div class="callout amber">Hits 2+ tests? It makes your shortlist.</div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 3 ══ -->
+  <div class="phase" id="step3">
+    <div class="phase-head">
+      <div class="phase-num" style="background:var(--amber);">3</div>
+      <div class="phase-head-text">
+        <h3>Frame the Problem, Not the Solution</h3>
+        <p>Write it down before you name a tool</p>
+      </div>
+      <span class="when-badge" style="background:var(--amber-bg);color:var(--amber);">15 min</span>
+    </div>
+    <div class="phase-body">
+      <p class="lead">For each flagged task, write a problem statement — never a tool name.</p>
+      <div class="red-flags">
+        <div class="rf bad"><span class="rf-mark">✕</span><span class="txt">"We need a chatbot."</span></div>
+        <div class="rf good"><span class="rf-mark">✓</span><span class="txt">"Every week, the L&amp;D coordinator spends ~2 hours manually copying survey responses into a summary report for leadership."</span></div>
+      </div>
+      <p class="lead" style="margin-top:14px;">A good statement names <strong style="color:var(--gray-800);">who</strong> does it, <strong style="color:var(--gray-800);">how often</strong>, <strong style="color:var(--gray-800);">how long</strong> it takes, and <strong style="color:var(--gray-800);">what's painful</strong> about it.</p>
+      <div class="callout amber">Pick <strong>one</strong> problem statement for the hackathon. Three problems, zero shipped — narrow scope wins.</div>
+    </div>
+  </div>
+
+  <!-- ══ STEP 4 ══ -->
+  <div class="phase" id="step4">
+    <div class="phase-head">
+      <div class="phase-num" style="background:var(--purple);">4</div>
+      <div class="phase-head-text">
+        <h3>Prioritize with an Impact/Effort Lens</h3>
+        <p>Sanity-check against the judging criteria</p>
+      </div>
+      <span class="when-badge" style="background:var(--purple-bg);color:var(--purple);">10 min</span>
+    </div>
+    <div class="phase-body">
+      <div class="decision">
+        <div class="decision-row"><div class="dr-q">How much time would this save per instance?</div><div class="dr-a">Feeds the "time saved" score</div></div>
+        <div class="decision-row"><div class="dr-q">How often does this happen?</div><div class="dr-a">Feeds the "frequency" score</div></div>
+        <div class="decision-row"><div class="dr-q">Who else does something similar?</div><div class="dr-a">Feeds the "scalability / reach" score</div></div>
+        <div class="decision-row"><div class="dr-q">Can we realistically build this by Monday?</div><div class="dr-a">Feasibility — this one's a dealbreaker</div></div>
+      </div>
+      <div class="callout purple" style="background:var(--purple-bg);border-color:var(--purple-border);color:#4C1D95;">Score low on feasibility? Find a smaller slice of the same problem you can actually finish.</div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- ══ STEP 5: interactive tool chooser ══ -->
+<div class="container">
+<div class="section">
+  <div class="phase" id="step5">
+    <div class="phase-head">
+      <div class="phase-num" style="background:var(--green);">5</div>
+      <div class="phase-head-text">
+        <h3>Choose Your Tool</h3>
+        <p>Match the problem type to a tool category — then stop deliberating</p>
+      </div>
+      <span class="when-badge" style="background:var(--green-bg);color:var(--green);">don't overthink</span>
+    </div>
+    <div class="phase-body">
+      <p class="lead">Tap what your task involves. You don't need the "best" tool — you need one that works fast.</p>
+      <div class="tool-tabs">
+        <button class="tool-tab-btn active" data-tool="write" onclick="switchTool('write')">Writing / Drafting</button>
+        <button class="tool-tab-btn" data-tool="automate" onclick="switchTool('automate')">Automating Steps</button>
+        <button class="tool-tab-btn" data-tool="move" onclick="switchTool('move')">Moving Data Between Apps</button>
+        <button class="tool-tab-btn" data-tool="build" onclick="switchTool('build')">Simple Internal Tool</button>
+        <button class="tool-tab-btn" data-tool="sheet" onclick="switchTool('sheet')">Spreadsheet Cleanup</button>
+      </div>
+      <div class="tool-pane active" id="tool-write">
+        <div class="tool-pane-title">Writing, rewriting, summarizing, drafting</div>
+        <div class="tool-pane-desc">Chat with an AI model directly. Paste your raw content, describe the format you need, and iterate.</div>
+        <div class="tool-chip-row"><span class="chip cl">Claude</span><span class="chip gp">ChatGPT</span><span class="chip gm">Gemini</span></div>
+        <div class="tool-hint">💡 Start with a real example from your workflow, not a generic prompt — it gets you to a usable draft faster.</div>
+      </div>
+      <div class="tool-pane" id="tool-automate">
+        <div class="tool-pane-title">Automating manual steps</div>
+        <div class="tool-pane-desc">Have the model write the automation for you: a Google Apps Script if you live in Sheets/Docs, or a Python script for anything more general.</div>
+        <div class="tool-chip-row"><span class="chip gm">Gemini for Apps Script</span><span class="chip gp">ChatGPT</span><span class="chip cl">Claude for Python</span></div>
+        <div class="tool-hint">💡 Describe the trigger and the desired end state — let the model figure out the steps in between.</div>
+      </div>
+      <div class="tool-pane" id="tool-move">
+        <div class="tool-pane-title">Moving data between apps automatically</div>
+        <div class="tool-pane-desc">Sheets, email, Slack, forms — if data needs to hop between systems on its own, reach for a connector platform instead of custom code.</div>
+        <div class="tool-chip-row"><span class="chip zap">Zapier</span><span class="chip make">Make.com</span><span class="chip n8n">n8n</span></div>
+        <div class="tool-hint">💡 These trade some flexibility for speed of setup — usually the right trade for a five-day hackathon.</div>
+      </div>
+      <div class="tool-pane" id="tool-build">
+        <div class="tool-pane-title">A simple internal tool, dashboard, or tracker</div>
+        <div class="tool-pane-desc">Need an actual mini-app people click into? No-code builders get you a working version fastest.</div>
+        <div class="tool-chip-row"><span class="chip lovable">Lovable</span><span class="chip base44">Base44</span></div>
+        <div class="tool-hint">💡 Wireframe it on paper first — five minutes there saves an hour of rebuilding later.</div>
+      </div>
+      <div class="tool-pane" id="tool-sheet">
+        <div class="tool-pane-title">Spreadsheet formulas, cleaning messy data</div>
+        <div class="tool-pane-desc">Formula generation, messy-to-clean transforms, or quick pivots — describe what the data looks like now and what you need it to look like.</div>
+        <div class="tool-chip-row"><span class="chip cl">Claude</span><span class="chip gp">ChatGPT</span><span class="chip gm">Gemini</span><span class="chip excel">Claude in Excel</span></div>
+        <div class="tool-hint">💡 Paste a small sample of real (synthetic) rows so the model can see the actual shape of the mess.</div>
+      </div>
+      <div class="callout green" style="margin-top:16px;">Switching tools mid-hackathon costs more time than an imperfect first pick. Choose one and move.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ STEP 6 ══ -->
+<div style="background:white;">
+<div class="container">
+<div class="section" id="step6">
+  <div class="sec-label">Step 6 · No Time Limit</div>
+  <div class="sec-title">Prototype in Small Loops</div>
+  <div class="sec-sub">Don't build the whole thing in one pass. Work in short cycles — each an hour or two, not a full day.</div>
+
+  <div class="tips-box">
+    <h4>The loop, four times over</h4>
+    <ul class="tips-list">
+      <li>Build the <strong>smallest possible version</strong> — the dumbest thing that still saves time</li>
+      <li>Test it on <strong>real (synthetic) data</strong> immediately, before it feels "done"</li>
+      <li>Iterate on whatever <strong>breaks or feels clunky</strong></li>
+      <li>Repeat</li>
+    </ul>
+  </div>
+  <div class="callout blue" style="margin-top:16px;">Rule of thumb: by <strong>Friday evening</strong>, something should run end-to-end — rough is fine. Polish comes later.</div>
+</div>
+</div>
+</div>
+
+<!-- ══ STEP 7 ══ -->
+<div class="container">
+<div class="section" id="step7">
+  <div class="sec-label">Step 7 · Track As You Go</div>
+  <div class="sec-title">Measure the Impact</div>
+  <div class="sec-sub">You'll need every one of these numbers for your submission — start logging them now, not the night before.</div>
+
+  <div class="metric-grid">
+    <div class="metric-box"><div class="metric-icon" style="background:var(--blue);">⏱</div><div><h4>Time before</h4><p>How long the manual process took</p></div></div>
+    <div class="metric-box"><div class="metric-icon" style="background:var(--green);">⚡</div><div><h4>Time after</h4><p>How long it takes with your solution</p></div></div>
+    <div class="metric-box"><div class="metric-icon" style="background:var(--amber);">🔁</div><div><h4>Frequency</h4><p>How often it happens, per week or month</p></div></div>
+    <div class="metric-box"><div class="metric-icon" style="background:var(--purple);">🌍</div><div><h4>Reach</h4><p>Who else could use it — ask around, don't guess</p></div></div>
+  </div>
+  <div class="callout green">"This could save our team of 6 about 3 hours a week" beats an unsupported big number every time.</div>
+</div>
+</div>
+
+<!-- ══ STEP 8 ══ -->
+<div style="background:white;">
+<div class="container">
+<div class="section" id="step8">
+  <div class="sec-label">Step 8 · Final Check</div>
+  <div class="sec-title">Prepare Your Submission</div>
+  <div class="sec-sub">Revisit the submission requirements from the planning doc. Tap each one as you can answer it — the guide won't save your progress, so do this together as a team right before you submit.</div>
+
+  <div class="checks" id="submission-checks">
+    <div class="check-item blue" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>What was the problem?</strong><span>Named clearly — who, how often, how painful.</span></div>
+    </div>
+    <div class="check-item green" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>What did you build?</strong><span>The smallest working version, described plainly.</span></div>
+    </div>
+    <div class="check-item amber" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>What does it save?</strong><span>Time, effort, or errors — with real numbers from Step 7.</span></div>
+    </div>
+    <div class="check-item purple" onclick="toggleCheck(this)">
+      <div class="check-box"></div>
+      <div class="check-text"><strong>Who else could use it?</strong><span>And what would it take to roll this out more broadly.</span></div>
+    </div>
+  </div>
+  <div class="progress-line" id="progress-line"><strong>0 of 4</strong> ready to submit</div>
+</div>
+</div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div class="footer">
+  <div>🔒 No real beneficiary or donor data in any third-party AI tool — synthetic or sample data only.</div>
+  <div class="offices">Nairobi · Phnom Penh · Vientiane</div>
+  <div style="margin-top:14px;"><strong>AI Workflow Optimization Hackathon</strong> · Thursday through Monday</div>
+</div>
+
+<script>
+  function switchTool(id) {
+    document.querySelectorAll('.tool-tab-btn').forEach(function(btn) { btn.classList.remove('active'); });
+    document.querySelectorAll('.tool-pane').forEach(function(pane) { pane.classList.remove('active'); });
+    document.querySelector('.tool-tab-btn[data-tool="' + id + '"]').classList.add('active');
+    document.getElementById('tool-' + id).classList.add('active');
+  }
+
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+    var total = document.querySelectorAll('#submission-checks .check-item').length;
+    var done = document.querySelectorAll('#submission-checks .check-item.done').length;
+    document.getElementById('progress-line').innerHTML = '<strong>' + done + ' of ' + total + '</strong> ready to submit';
+  }
+
+  window.addEventListener('scroll', function() {
+    var sections = ['step0','step1','step3','step5','step6','step8'];
+    var navLinks = document.querySelectorAll('.sticky-nav-links a');
+    var current = '';
+    sections.forEach(function(sid) {
+      var el = document.getElementById(sid);
+      if (el && el.getBoundingClientRect().top <= 80) current = sid;
+    });
+    navLinks.forEach(function(a) {
+      a.classList.remove('active');
+      var href = a.getAttribute('href').replace('#','');
+      if (href === current) a.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>
