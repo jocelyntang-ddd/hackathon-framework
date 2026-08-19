@@ -128,7 +128,7 @@
   .qr-box.c5 { background: var(--red-bg); border-color: var(--red-border); } .qr-box.c5 h4 { color: var(--red); } .qr-box.c5 p { color: #7F1D1D; }
   .qr-box.c6 { background: var(--teal-bg); border-color: var(--teal-border); } .qr-box.c6 h4 { color: var(--teal); } .qr-box.c6 p { color: #134E4A; }
 
-  /* ── GOOD / BAD (Step 3) ── */
+  /* ── GOOD / BAD (Step 4) ── */
   .red-flags { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 6px; }
   .rf { border-radius: 8px; padding: 13px 15px; border: 1px solid; display: flex; gap: 10px; align-items: flex-start; }
   .rf.bad { background: var(--red-bg); border-color: var(--red-border); }
@@ -138,14 +138,14 @@
   .rf span.txt { font-size: 13.5px; line-height: 1.55; }
   .rf.bad span.txt { color: #7F1D1D; } .rf.good span.txt { color: #14532D; }
 
-  /* ── DECISION TABLE (Step 4) ── */
+  /* ── DECISION TABLE (Step 5) ── */
   .decision { background: white; border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; margin-bottom: 6px; }
   .decision-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--gray-100); }
   .decision-row:last-child { border-bottom: none; }
   .dr-q { flex: 0 0 44%; padding: 13px 18px; background: var(--gray-50); font-size: 13px; font-weight: 600; color: var(--navy); border-right: 1px solid var(--gray-200); display: flex; align-items: center; }
   .dr-a { flex: 1; padding: 13px 18px; font-size: 13px; color: var(--gray-600); display: flex; align-items: center; }
 
-  /* ── TOOL CHOOSER TABS (Step 5) ── */
+  /* ── TOOL CHOOSER TABS (Step 6) ── */
   .tool-tabs { display: flex; gap: 0; flex-wrap: nowrap; overflow-x: auto; margin-bottom: 0; scrollbar-width: thin; }
   .tool-tab-btn {
     padding: 10px 14px; font-size: 11px; font-weight: 600;
@@ -164,7 +164,7 @@
   .chip { padding: 5px 13px; border-radius: 100px; font-size: 12px; font-weight: 600; background: white; color: var(--navy); border: 1px solid var(--gray-200); }
   .tool-hint { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--gray-200); font-size: 12.5px; color: var(--gray-600); }
 
-  /* ── TIPS BOX (Step 6 loop) ── */
+  /* ── TIPS BOX (Step 7 loop) ── */
   .tips-box { background: linear-gradient(135deg, var(--purple-bg), var(--blue-bg)); border: 1px solid var(--purple-border); border-radius: 12px; padding: 22px 26px; }
   .tips-box h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 12px; }
   .tips-list { list-style: none; }
@@ -172,14 +172,14 @@
   .tips-list li:last-child { border-bottom: none; }
   .tips-list li::before { content: '→'; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
 
-  /* ── METRIC GRID (Step 7) ── */
+  /* ── METRIC GRID (Step 8) ── */
   .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px,1fr)); gap: 14px; margin-bottom: 6px; }
   .metric-box { background: white; border: 1px solid var(--gray-200); border-radius: 12px; padding: 18px; display: flex; gap: 14px; align-items: flex-start; }
   .metric-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; font-weight: 800; color: white; }
   .metric-box h4 { font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 3px; }
   .metric-box p { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
 
-  /* ── SUBMISSION CHECKLIST (Step 8) ── */
+  /* ── SUBMISSION CHECKLIST (Step 9) ── */
   .checks { display: flex; flex-direction: column; gap: 8px; }
   .check-item { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 8px; border: 1px solid transparent; cursor: pointer; user-select: none; transition: all 0.15s; }
   .check-item.blue { background: var(--blue-bg); border-color: var(--blue-border); }
@@ -243,12 +243,12 @@
 <div class="sticky-nav">
   <div class="sticky-nav-brand">Getting Started</div>
   <div class="sticky-nav-links">
-    <a href="#step0">Start</a>
-    <a href="#step1">Map</a>
-    <a href="#step3">Frame</a>
-    <a href="#step5">Tool</a>
-    <a href="#step6">Build</a>
-    <a href="#step8">Submit</a>
+    <a href="#step1">Start</a>
+    <a href="#step2">Map</a>
+    <a href="#step4">Frame</a>
+    <a href="#step6">Tool</a>
+    <a href="#step7">Build</a>
+    <a href="#step9">Submit</a>
   </div>
 </div>
 
@@ -257,80 +257,80 @@
 <div class="container">
 <div class="section">
   <div class="sec-label">How It Works</div>
-  <div class="sec-title">Eight Steps from Blank Page to Working Prototype</div>
+  <div class="sec-title">Nine Steps from Blank Page to Working Prototype</div>
   <div class="sec-sub">Every team follows this sequence. Click any card to jump straight to that part of the guide.</div>
 
   <div class="flow">
     <div class="flow-step">
-      <div class="flow-inner" onclick="document.getElementById('step0').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--teal);">0</div>
-        <h3>Start from a Pain Point</h3>
-        <p>(Optional) Check whether your office already has a known problem worth tackling.</p>
-        <div class="flow-jump" style="color:var(--teal);">↓ Jump to Step 0</div>
-      </div>
-    </div>
-    <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step1').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--blue);">1</div>
-        <h3>Map Your Workflow</h3>
-        <p>Lay out one process, step by step, from trigger to completion.</p>
-        <div class="flow-jump" style="color:var(--blue);">↓ Jump to Step 1</div>
+        <div class="flow-num" style="background: var(--teal);">1</div>
+        <h3>Name Your Pain Point</h3>
+        <p>Talk through a few questions to surface a problem worth tackling.</p>
+        <div class="flow-jump" style="color:var(--teal);">↓ Jump to Step 1</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step2').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--red);">2</div>
-        <h3>Hunt for Pain</h3>
-        <p>Run every step through six tests to flag what's repetitive and painful.</p>
-        <div class="flow-jump" style="color:var(--red);">↓ Jump to Step 2</div>
+        <div class="flow-num" style="background: var(--blue);">2</div>
+        <h3>Map Your Workflow</h3>
+        <p>Lay out one process, step by step, from trigger to completion.</p>
+        <div class="flow-jump" style="color:var(--blue);">↓ Jump to Step 2</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step3').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--amber);">3</div>
-        <h3>Frame the Problem</h3>
-        <p>Write it as a problem statement — never a tool name.</p>
-        <div class="flow-jump" style="color:var(--amber);">↓ Jump to Step 3</div>
+        <div class="flow-num" style="background: var(--red);">3</div>
+        <h3>Hunt for Pain</h3>
+        <p>Run every step through six tests to flag what's repetitive and painful.</p>
+        <div class="flow-jump" style="color:var(--red);">↓ Jump to Step 3</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step4').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--purple);">4</div>
-        <h3>Prioritize</h3>
-        <p>Sanity-check against time saved, frequency, reach, and feasibility.</p>
-        <div class="flow-jump" style="color:var(--purple);">↓ Jump to Step 4</div>
+        <div class="flow-num" style="background: var(--amber);">4</div>
+        <h3>Frame the Problem</h3>
+        <p>Write it as a problem statement — never a tool name.</p>
+        <div class="flow-jump" style="color:var(--amber);">↓ Jump to Step 4</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step5').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--green);">5</div>
-        <h3>Choose Your Tool</h3>
-        <p>Match the problem type to a tool category. Don't overthink it.</p>
-        <div class="flow-jump" style="color:var(--green);">↓ Jump to Step 5</div>
+        <div class="flow-num" style="background: var(--purple);">5</div>
+        <h3>Prioritize</h3>
+        <p>Sanity-check against time saved, frequency, reach, and feasibility.</p>
+        <div class="flow-jump" style="color:var(--purple);">↓ Jump to Step 5</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step6').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--blue);">6</div>
-        <h3>Prototype in Loops</h3>
-        <p>Build the smallest version, test it, iterate. Repeat.</p>
-        <div class="flow-jump" style="color:var(--blue);">↓ Jump to Step 6</div>
+        <div class="flow-num" style="background: var(--green);">6</div>
+        <h3>Choose Your Tool</h3>
+        <p>Match the problem type to a tool category. Don't overthink it.</p>
+        <div class="flow-jump" style="color:var(--green);">↓ Jump to Step 6</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step7').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--teal);">7</div>
-        <h3>Measure the Impact</h3>
-        <p>Track time saved, frequency, and reach as you build.</p>
-        <div class="flow-jump" style="color:var(--teal);">↓ Jump to Step 7</div>
+        <div class="flow-num" style="background: var(--blue);">7</div>
+        <h3>Prototype in Loops</h3>
+        <p>Build the smallest version, test it, iterate. Repeat.</p>
+        <div class="flow-jump" style="color:var(--blue);">↓ Jump to Step 7</div>
       </div>
     </div>
     <div class="flow-step">
       <div class="flow-inner" onclick="document.getElementById('step8').scrollIntoView({behavior:'smooth'})">
-        <div class="flow-num" style="background: var(--purple);">8</div>
+        <div class="flow-num" style="background: var(--teal);">8</div>
+        <h3>Measure the Impact</h3>
+        <p>Track time saved, frequency, and reach as you build.</p>
+        <div class="flow-jump" style="color:var(--teal);">↓ Jump to Step 8</div>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-inner" onclick="document.getElementById('step9').scrollIntoView({behavior:'smooth'})">
+        <div class="flow-num" style="background: var(--purple);">9</div>
         <h3>Prepare Your Submission</h3>
         <p>Package the problem, the build, and the numbers into your story.</p>
-        <div class="flow-jump" style="color:var(--purple);">↓ Jump to Step 8</div>
+        <div class="flow-jump" style="color:var(--purple);">↓ Jump to Step 9</div>
       </div>
     </div>
   </div>
@@ -345,24 +345,25 @@
 <!-- ══ STEP 0 ══ -->
 <div class="container">
 <div class="section">
-  <div class="phase" id="step0" style="border-left-color:var(--teal);">
+  <div class="phase" id="step1" style="border-left-color:var(--teal);">
     <div class="phase-head" style="background:var(--teal-bg);">
-      <div class="phase-num" style="background:var(--teal);">0</div>
+      <div class="phase-num" style="background:var(--teal);">1</div>
       <div class="phase-head-text">
-        <h3>Start from a Known Pain Point</h3>
-        <p>Check whether your office already has a known issue</p>
+        <h3>Name Your Pain Point</h3>
+        <p>Figure out what's actually worth fixing before you map anything</p>
       </div>
-      <span class="when-badge" style="background:var(--teal-bg);color:var(--teal);">Optional · 10 min</span>
+      <span class="when-badge" style="background:var(--teal-bg);color:var(--teal);">10 min</span>
     </div>
     <div class="phase-body">
-      <p class="lead">Check whether your office already has a known pain point below. It's a shortcut, not a mandate — if something else feels more pressing, chase that instead.</p>
+      <p class="lead">You don't need a fully-formed problem yet — just a nagging feeling. Sit with your team for 10 minutes and talk through the questions below. Whatever comes up first is your starting hypothesis.</p>
       <div class="topics">
-        <div class="topic-card"><h3>🇰🇪 Nairobi</h3><div class="fill">— to be filled in —</div></div>
-        <div class="topic-card"><h3>🇱🇦 Vientiane</h3><div class="fill">— to be filled in —</div></div>
-        <div class="topic-card"><h3>🇰🇭 Phnom Penh</h3><div class="fill">— to be filled in —</div></div>
+        <div class="topic-card"><h3>😤 What frustrates you?</h3><div class="fill" style="color:var(--gray-600);font-style:normal;">The task you dread, avoid or put off.</div></div>
+        <div class="topic-card"><h3>📋 What work doesn't require you to think?</h3><div class="fill" style="color:var(--gray-600);font-style:normal;">Copy-pasting, re-typing, or reformatting the same info between tools.</div></div>
+        <div class="topic-card"><h3>🔁 What do you repeat daily?</h3><div class="fill" style="color:var(--gray-600);font-style:normal;">The same email, report, data pull, or status update — over and over.</div></div>
+        <div class="topic-card"><h3>⏰ What takes a long time but isn't worth it?</h3><div class="fill" style="color:var(--gray-600);font-style:normal;">Work that takes forever but barely moves anything forward.</div></div>
       </div>
       <div class="callout amber">
-        Picked one? Treat it as a hypothesis, not a done deal — still run it through Steps 1–4. It might turn out to be a symptom of a different task once you map it out. Nothing resonating? Skip straight to Step 1.
+        Does something come up right away? Good — that's your starting point. It doesn't mean you are committed to it. Still run it through Steps 2 through 5 - it might turn out to be a symptom of a different task once you map it out. Nothing resonating yet? Skip to Step 2 and let it surface as you map your workflow.
       </div>
     </div>
   </div>
@@ -373,9 +374,9 @@
 <div style="background:white;">
 <div class="container">
 <div class="section">
-  <div class="phase" id="step1" style="border-left-color:var(--blue);">
+  <div class="phase" id="step2" style="border-left-color:var(--blue);">
     <div class="phase-head" style="background:var(--blue-bg);">
-      <div class="phase-num" style="background:var(--blue);">1</div>
+      <div class="phase-num" style="background:var(--blue);">2</div>
       <div class="phase-head-text">
         <h3>Map Your Workflow</h3>
         <p>Get concrete about what you actually do</p>
@@ -400,9 +401,9 @@
 <!-- ══ STEP 2 ══ -->
 <div class="container">
 <div class="section">
-  <div class="phase" id="step2" style="border-left-color:var(--red);">
+  <div class="phase" id="step3" style="border-left-color:var(--red);">
     <div class="phase-head" style="background:var(--red-bg);">
-      <div class="phase-num" style="background:var(--red);">2</div>
+      <div class="phase-num" style="background:var(--red);">3</div>
       <div class="phase-head-text">
         <h3>Hunt for Repetitive, Time-Consuming Tasks</h3>
         <p>Run every step through six tests</p>
@@ -429,9 +430,9 @@
 <div style="background:white;">
 <div class="container">
 <div class="section">
-  <div class="phase" id="step3" style="border-left-color:var(--amber);">
+  <div class="phase" id="step4" style="border-left-color:var(--amber);">
     <div class="phase-head" style="background:var(--amber-bg);">
-      <div class="phase-num" style="background:var(--amber);">3</div>
+      <div class="phase-num" style="background:var(--amber);">4</div>
       <div class="phase-head-text">
         <h3>Frame the Problem, Not the Solution</h3>
         <p>Write it down before you name a tool</p>
@@ -455,9 +456,9 @@
 <!-- ══ STEP 4 ══ -->
 <div class="container">
 <div class="section">
-  <div class="phase" id="step4" style="border-left-color:var(--purple);">
+  <div class="phase" id="step5" style="border-left-color:var(--purple);">
     <div class="phase-head" style="background:var(--purple-bg);">
-      <div class="phase-num" style="background:var(--purple);">4</div>
+      <div class="phase-num" style="background:var(--purple);">5</div>
       <div class="phase-head-text">
         <h3>Prioritize with an Impact/Effort Lens</h3>
         <p>Sanity-check against the judging criteria</p>
@@ -481,9 +482,9 @@
 <div style="background:white;">
 <div class="container">
 <div class="section">
-  <div class="phase" id="step5" style="border-left-color:var(--green);">
+  <div class="phase" id="step6" style="border-left-color:var(--green);">
     <div class="phase-head" style="background:var(--green-bg);">
-      <div class="phase-num" style="background:var(--green);">5</div>
+      <div class="phase-num" style="background:var(--green);">6</div>
       <div class="phase-head-text">
         <h3>Choose Your Tool</h3>
         <p>Match the problem type to a tool category</p>
@@ -539,9 +540,9 @@
 <!-- ══ STEP 6 ══ -->
 <div class="container">
 <div class="section">
-  <div class="phase" id="step6" style="border-left-color:var(--blue);">
+  <div class="phase" id="step7" style="border-left-color:var(--blue);">
     <div class="phase-head" style="background:var(--blue-bg);">
-      <div class="phase-num" style="background:var(--blue);">6</div>
+      <div class="phase-num" style="background:var(--blue);">7</div>
       <div class="phase-head-text">
         <h3>Prototype in Small Loops</h3>
         <p>Work in short cycles, not one long build</p>
@@ -569,9 +570,9 @@
 <div style="background:white;">
 <div class="container">
 <div class="section">
-  <div class="phase" id="step7" style="border-left-color:var(--teal);">
+  <div class="phase" id="step8" style="border-left-color:var(--teal);">
     <div class="phase-head" style="background:var(--teal-bg);">
-      <div class="phase-num" style="background:var(--teal);">7</div>
+      <div class="phase-num" style="background:var(--teal);">8</div>
       <div class="phase-head-text">
         <h3>Measure the Impact</h3>
         <p>Track as you go, not the night before</p>
@@ -596,9 +597,9 @@
 <!-- ══ STEP 8 ══ -->
 <div class="container">
 <div class="section">
-  <div class="phase" id="step8" style="border-left-color:var(--purple);">
+  <div class="phase" id="step9" style="border-left-color:var(--purple);">
     <div class="phase-head" style="background:var(--purple-bg);">
-      <div class="phase-num" style="background:var(--purple);">8</div>
+      <div class="phase-num" style="background:var(--purple);">9</div>
       <div class="phase-head-text">
         <h3>Prepare Your Submission</h3>
         <p>Final check before you turn it in</p>
@@ -618,7 +619,7 @@
         </div>
         <div class="check-item amber" onclick="toggleCheck(this)">
           <div class="check-box"></div>
-          <div class="check-text"><strong>What does it save?</strong><span>Time, effort, or errors — with real numbers from Step 7.</span></div>
+          <div class="check-text"><strong>What does it save?</strong><span>Time, effort, or errors — with real numbers from Step 8.</span></div>
         </div>
         <div class="check-item purple" onclick="toggleCheck(this)">
           <div class="check-box"></div>
@@ -654,7 +655,7 @@
   }
 
   window.addEventListener('scroll', function() {
-    var sections = ['step0','step1','step3','step5','step6','step8'];
+    var sections = ['step1','step2','step4','step6','step7','step9'];
     var navLinks = document.querySelectorAll('.sticky-nav-links a');
     var current = '';
     sections.forEach(function(sid) {
